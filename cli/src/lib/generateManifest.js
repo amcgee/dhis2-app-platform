@@ -39,6 +39,7 @@ module.exports = (paths, config, publicUrl) => {
     // Write config json
     const appConfig = { ...config }
     delete appConfig['entryPoints']
+    delete appConfig['buildOptions']
 
     fs.writeJsonSync(paths.buildAppConfigJson, appConfig, { spaces: 2 })
 }

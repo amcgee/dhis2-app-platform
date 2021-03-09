@@ -9,7 +9,10 @@ const exitOnCatch = async (fn, { name, onError, code = 1 } = {}) => {
             await onError(err)
         }
         reporter.debugErr(`Failed in async try/catch of function ${fnName}`)
-        reporter.debugErr(`Error: ${err}`)
+        reporter.error(String(err))
+        if (err.stack) {
+            reporter.debugErr(String(err.stack))
+        }
         process.exit(code)
     }
 }

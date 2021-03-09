@@ -11,26 +11,30 @@
             "examples/simple-app",
             "cli",
             "shell",
-            "adapter"
+            "adapter",
+            "configs/*"
         ]
     },
     "devDependencies": {
+        "@babel/core": "^7.13.8",
         "@dhis2/cli-style": "^7.3.0",
         "@dhis2/cli-utils-docsite": "^2.0.2",
-        "concurrently": "^5.0.0"
+        "concurrently": "^5.0.0",
+        "react": "^16.8"
     },
     "scripts": {
         "format": "d2-style js apply && d2-style text apply",
         "lint": "d2-style js check && d2-style text check",
-        "build": "yarn build:adapter && yarn build:example",
+        "build": "yarn build:rollup-config && yarn build:adapter && yarn build:example",
+        "build:rollup-config": "yarn workspace @dhis2/config-rollup build",
         "build:adapter": "yarn workspace @dhis2/app-adapter build",
         "build:example": "yarn workspace simple-app build",
         "start:example": "yarn workspace simple-app start --force",
-        "start": "yarn build:adapter && yarn start:example",
+        "start": "yarn build:rollup-config && yarn build:adapter && yarn start:example",
         "docs:serve": "d2-utils-docsite serve ./docs -o ./dist",
         "docs:build": "d2-utils-docsite build ./docs -o ./dist",
         "test:adapter": "yarn workspace @dhis2/app-adapter test",
-        "test": "yarn test:adapter"
+        "test": "yarn build:rollup-config && yarn test:adapter"
     },
     "d2": {
         "docsite": {

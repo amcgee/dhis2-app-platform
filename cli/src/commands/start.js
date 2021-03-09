@@ -1,21 +1,19 @@
 const { reporter, chalk } = require('@dhis2/cli-helpers-engine')
-const detectPort = require('detect-port')
-const { compile } = require('../lib/compiler')
+const { bundle } = require('../lib/compiler')
+const { serve } = require('../lib/devServer')
 const exitOnCatch = require('../lib/exitOnCatch')
 const i18n = require('../lib/i18n')
 const loadEnvFiles = require('../lib/loadEnvFiles')
 const parseConfig = require('../lib/parseConfig')
 const makePaths = require('../lib/paths')
-const makeShell = require('../lib/shell')
 const { validatePackage } = require('../lib/validatePackage')
 
 const defaultPort = 3000
 
 const handler = async ({
     cwd,
-    force,
+    shell = undefined,
     port = process.env.PORT || defaultPort,
-    shell: shellSource,
 }) => {
     const paths = makePaths(cwd)
 
@@ -23,7 +21,6 @@ const handler = async ({
     loadEnvFiles(paths, mode)
 
     const config = parseConfig(paths)
-    const shell = makeShell({ config, paths })
 
     if (config.type !== 'app') {
         reporter.error(
@@ -55,40 +52,24 @@ const handler = async ({
                 namespace: 'default',
             })
 
-            reporter.info('Bootstrapping local appShell...')
-            await shell.bootstrap({ shell: shellSource, force })
-
-            reporter.info(`Building app ${chalk.bold(config.name)}...`)
-            await compile({
-                config,
-                mode,
-                paths,
-                watch: true,
-            })
-
-            const newPort = await detectPort(port)
-            if (String(newPort) !== String(port)) {
-                reporter.print('')
-                reporter.warn(
-                    `Something is already running on port ${port}, using ${newPort} instead.`
-                )
-            }
-
-            reporter.print('')
-            reporter.info('Starting development server...')
-            reporter.print(
-                `The app ${chalk.bold(
-                    config.name
-                )} is now available on port ${newPort}`
-            )
-            reporter.print('')
-
-            await shell.start({ port: newPort })
+            // TODO: build to virtual FS or clear exsting build dir?
+            const outDir = paths.buildAppOutput
+            await Promise.all([
+                bundle({
+                    d2config: config,
+                    outDir,
+                    env: {
+                        MODE: mode,
+                    },
+                    publicDir: paths.public,
+                    shell: shell || paths.shellSource,
+                    watch: true,
+                }),
+                serve(outDir, { name: config.name, port }),
+            ])
         },
         {
             name: 'start',
-            onError: () =>
-                reporter.error('Start script exited with non-zero exit code'),
         }
     )
 }

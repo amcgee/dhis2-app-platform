@@ -4,8 +4,8 @@ const { defaultsDeep, has, isPlainObject } = require('lodash')
 const parseAuthorString = require('parse-author')
 
 const requiredConfigFields = {
-    app: ['name', 'version', 'title', 'entryPoints.app'],
-    lib: ['name', 'version', 'entryPoints.lib'],
+    app: ['name', 'version', 'title', 'entryPoints.app', 'buildOptions.root'],
+    lib: ['name', 'version', 'entryPoints.lib', 'buildOptions.root'],
 }
 
 const parseAuthor = author => {
@@ -75,9 +75,10 @@ const parseConfig = paths => {
         }
         config.title = config.title || config.name
 
+        reporter.debug('config loaded', config)
+
         validateConfig(config)
 
-        reporter.debug('config loaded', config)
         return config
     } catch (e) {
         reporter.error('Failed to load d2 config!')

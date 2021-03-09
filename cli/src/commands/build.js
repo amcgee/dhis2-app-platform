@@ -1,15 +1,14 @@
 const path = require('path')
 const { reporter, chalk } = require('@dhis2/cli-helpers-engine')
 const fs = require('fs-extra')
-const bundleApp = require('../lib/bundleApp')
-const { compile } = require('../lib/compiler')
+const buildAppArchive = require('../lib/buildAppArchive')
+const { compile, bundle } = require('../lib/compiler')
 const exitOnCatch = require('../lib/exitOnCatch')
 const generateManifest = require('../lib/generateManifest')
 const i18n = require('../lib/i18n')
 const loadEnvFiles = require('../lib/loadEnvFiles')
 const parseConfig = require('../lib/parseConfig')
 const makePaths = require('../lib/paths')
-const makeShell = require('../lib/shell')
 const { validatePackage } = require('../lib/validatePackage')
 
 const buildModes = ['development', 'production']
@@ -28,21 +27,35 @@ const getNodeEnv = () => {
 const printBuildParam = (key, value) => {
     reporter.print(chalk.green(` - ${key} :`), chalk.yellow(value))
 }
-const setAppParameters = (standalone, config) => {
-    process.env.PUBLIC_URL = process.env.PUBLIC_URL || '.'
-    printBuildParam('PUBLIC_URL', process.env.PUBLIC_URL)
+const setAppParameters = (env, standalone, config) => {
+    env.PUBLIC_URL = process.env.PUBLIC_URL || '.'
+    printBuildParam('PUBLIC_URL', env.PUBLIC_URL)
 
     if (
         standalone === false ||
         (typeof standalone === 'undefined' && !config.standalone)
     ) {
         const defaultBase = config.coreApp ? `..` : `../../..`
-        process.env.DHIS2_BASE_URL = process.env.DHIS2_BASE_URL || defaultBase
+        env.DHIS2_BASE_URL = process.env.DHIS2_BASE_URL || defaultBase
 
-        printBuildParam('DHIS2_BASE_URL', process.env.DHIS2_BASE_URL)
+        printBuildParam('DHIS2_BASE_URL', env.DHIS2_BASE_URL)
     } else {
         printBuildParam('DHIS2_BASE_URL', '<standalone>')
     }
+}
+
+const filterEnv = () => {
+    const env = {}
+    for (const key of Object.keys(process.env)) {
+        if (key.startsWith('DHIS2_')) {
+            env[key] = process.env[key]
+        }
+        if (key.startsWith('REACT_APP_DHIS2_')) {
+            const realKey = env.substr('REACT_APP_'.length)
+            env[realKey] = process.env[key]
+        }
+    }
+    return env
 }
 
 const handler = async ({
@@ -51,9 +64,8 @@ const handler = async ({
     dev,
     watch,
     standalone,
-    shell: shellSource,
     verify,
-    force,
+    shell = undefined,
 }) => {
     const paths = makePaths(cwd)
 
@@ -64,10 +76,14 @@ const handler = async ({
     printBuildParam('Mode', mode)
 
     const config = parseConfig(paths)
-    const shell = makeShell({ config, paths })
+
+    const env = {
+        ...filterEnv(),
+        MODE: mode,
+    }
 
     if (config.type === 'app') {
-        setAppParameters(standalone, config)
+        setAppParameters(env, standalone, config)
     }
 
     await fs.remove(paths.buildOutput)
@@ -96,24 +112,19 @@ const handler = async ({
                 namespace: 'default',
             })
 
-            if (config.type === 'app') {
-                reporter.info('Bootstrapping local appShell...')
-                await shell.bootstrap({ shell: shellSource, force })
-            }
-
             reporter.info(
                 `Building ${config.type} ${chalk.bold(config.name)}...`
             )
 
             if (config.type === 'app') {
-                await compile({
-                    config,
-                    paths,
-                    mode,
+                await bundle({
+                    d2config: config,
+                    outDir: paths.buildAppOutput,
+                    env,
+                    publicDir: paths.public,
+                    shell: shell || paths.shellSource,
                     watch,
                 })
-                reporter.info('Building appShell...')
-                await shell.build()
             } else {
                 await Promise.all([
                     compile({
@@ -135,18 +146,10 @@ const handler = async ({
         },
         {
             name: 'build',
-            onError: () => reporter.error('Build script failed'),
         }
     )
 
     if (config.type === 'app') {
-        if (!fs.pathExistsSync(paths.shellBuildOutput)) {
-            reporter.error('No build output found')
-            process.exit(1)
-        }
-
-        await fs.copy(paths.shellBuildOutput, paths.buildAppOutput)
-
         reporter.info('Generating manifest...')
         await generateManifest(paths, config, process.env.PUBLIC_URL)
 
@@ -158,7 +161,7 @@ const handler = async ({
                 path.relative(cwd, appBundle)
             )}...`
         )
-        await bundleApp(paths.buildAppOutput, appBundle)
+        await buildAppArchive(paths.buildAppOutput, appBundle)
 
         reporter.print(chalk.green('\n**** DONE! ****'))
     }

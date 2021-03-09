@@ -1,7 +1,11 @@
 {
     "name": "simple-app",
     "version": "5.7.4",
-    "repository": "https://github.com/amcgee/dhis2-app-platform",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dhis2/app-platform.git",
+        "directory": "examples/simple-app"
+    },
     "author": "Austin McGee <austin@dhis2.org>",
     "license": "BSD-3-Clause",
     "private": true,

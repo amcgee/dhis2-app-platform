@@ -1,4 +1,5 @@
 const { reporter } = require('@dhis2/cli-helpers-engine')
+const defaultJestConfig = require('@dhis2/config-jest')
 const fs = require('fs-extra')
 const { runCLI } = require('jest-cli')
 const exitOnCatch = require('../lib/exitOnCatch')
@@ -23,7 +24,6 @@ const handler = async ({
 
     await exitOnCatch(
         async () => {
-            const defaultJestConfig = require(paths.jestConfigDefaults)
             const appJestConfig = fs.existsSync(paths.jestConfig)
                 ? require(paths.jestConfig)
                 : {}

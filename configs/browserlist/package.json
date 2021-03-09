@@ -1,0 +1,13 @@
+{
+    "name": "@dhis2/browserslist-config",
+    "version": "5.7.3",
+    "description": "A standard browser list for DHIS2 web applications",
+    "main": "./browserslist-config.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dhis2/app-platform.git",
+        "directory": "configs/browserslist"
+    },
+    "author": "Austin McGee <austin@dhis2.org>",
+    "license": "BSD-3-Clause"
+}

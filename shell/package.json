@@ -3,7 +3,7 @@
     "version": "5.7.4",
     "repository": {
         "type": "git",
-        "url": "https://github.com/amcgee/dhis2-app-platform",
+        "url": "https://github.com/dhis2/app-platform.git",
         "directory": "shell"
     },
     "author": "Austin McGee <austin@dhis2.org>",
@@ -11,32 +11,28 @@
     "publishConfig": {
         "access": "public"
     },
-    "dependencies": {
+    "files": [
+        "build",
+        "public"
+    ],
+    "devDependencies": {
         "@dhis2/app-adapter": "5.7.4",
         "@dhis2/app-runtime": "^2.6.1",
-        "@dhis2/d2-i18n": "^1.0.5",
+        "@dhis2/cli-app-scripts": "5.7.4",
+        "@dhis2/d2-i18n": "^1.1.0",
         "@dhis2/ui": "^5.7.2",
         "classnames": "^2.2.6",
         "moment": "^2.24.0",
         "prop-types": "^15.7.2",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
-        "react-scripts": "^4.0.0",
-        "source-map-explorer": "^2.1.0",
         "styled-jsx": "^3.2.2",
+        "systemjs": "^6.8.3",
         "typeface-roboto": "^0.0.75",
         "typescript": "^3.6.3"
     },
     "scripts": {
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test",
-        "eject": "react-scripts eject",
-        "analyze": "source-map-explorer 'build/static/js/*.js'"
-    },
-    "devDependencies": {
-        "enzyme": "^3.10.0",
-        "enzyme-adapter-react-16": "^1.14.0",
-        "react-test-renderer": "^16.8.6"
+        "build": "d2-app-scripts build",
+        "start": "d2-app-scripts start"
     }
 }

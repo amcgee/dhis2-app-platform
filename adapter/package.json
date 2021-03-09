@@ -3,7 +3,7 @@
     "version": "5.7.4",
     "repository": {
         "type": "git",
-        "url": "https://github.com/amcgee/dhis2-app-platform",
+        "url": "https://github.com/dhis2/app-platform.git",
         "directory": "adapter"
     },
     "author": "Austin McGee <austin@dhis2.org>",
@@ -21,6 +21,7 @@
         "build"
     ],
     "dependencies": {
+        "@rollup/plugin-commonjs": "^18.0.0-1",
         "moment": "^2.24.0"
     },
     "devDependencies": {

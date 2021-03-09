@@ -6,7 +6,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/amcgee/dhis2-app-platform",
+        "url": "https://github.com/dhis2/app-platform.git",
         "directory": "cli"
     },
     "author": "Austin McGee <austin@dhis2.org>",
@@ -15,6 +15,10 @@
         "access": "public"
     },
     "main": "src/index.js",
+    "exports": {
+        ".": "./src/index.js",
+        "./compiler": "./src/lib/compiler/index.js"
+    },
     "files": [
         "bin",
         "config",
@@ -22,18 +26,12 @@
     ],
     "dependencies": {
         "@babel/core": "^7.6.2",
-        "@babel/plugin-proposal-class-properties": "^7.8.3",
-        "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
-        "@babel/plugin-proposal-optional-chaining": "^7.8.3",
-        "@babel/preset-env": "^7.9.0",
-        "@babel/preset-react": "^7.0.0",
-        "@babel/preset-typescript": "^7.6.0",
         "@dhis2/app-shell": "5.7.4",
         "@dhis2/cli-helpers-engine": "^2.1.1",
+        "@dhis2/config-babel": "5.7.3",
+        "@dhis2/config-jest": "5.7.3",
         "archiver": "^3.1.1",
         "axios": "^0.20.0",
-        "babel-jest": "^24.9.0",
-        "babel-plugin-react-require": "^3.1.3",
         "chokidar": "^3.3.0",
         "detect-port": "^1.3.0",
         "dotenv": "^8.1.0",
@@ -49,7 +47,7 @@
         "lodash": "^4.17.11",
         "parse-author": "^2.0.0",
         "parse-gitignore": "^1.0.1",
-        "styled-jsx": "<3.3.3"
+        "serve-handler": "^6.1.3"
     },
     "bin": {
         "d2-app-scripts": "./bin/d2-app-scripts"

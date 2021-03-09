@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta name="theme-color" content="#ffffff" />
+        <!--
+          manifest.json provides metadata used when your web app is installed on a
+          user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+          <link rel="manifest" href="./manifest.json" />
+        -->
+        <meta name="msapplication-config" content="browserconfig.xml" />
+        <link rel="shortcut icon" href="./favicon.ico" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="./apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="48x48"
+            href="./favicon-48x48.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="./favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="./favicon-16x16.png"
+        />
+        <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#235b8b" />
+        <title>__TITLE__ | DHIS2</title>
+        <meta name="importmap-type" content="systemjs-importmap" />
+        <script type="systemjs-importmap">
+            __IMPORT_MAP__
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/import-map-overrides@2.2.0/dist/import-map-overrides.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/system.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/systemjs@6.8.3/dist/extras/amd.min.js"></script> -->
+        <script type="text/javascript" src="__MODULE_PATH_BOOTSTRAP__"></script>
+        <link rel="stylesheet" href="./static/css/base.css" />
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+        <import-map-overrides-full></import-map-overrides-full>
+    </body>
+</html>
