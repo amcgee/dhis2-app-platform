@@ -8,18 +8,20 @@ export const Alerts = () => {
     return (
         <AlertStack>
             {alerts.map(
-                ({ message, remove, id, options: { onHidden, ...props } }) => (
-                    <AlertBar
-                        {...props}
-                        key={id}
-                        onHidden={() => {
-                            onHidden && onHidden()
-                            remove()
-                        }}
-                    >
-                        {message}
-                    </AlertBar>
-                )
+                ({ message, remove, id, options: { onHidden, ...props } }) => {
+                    return (
+                        <AlertBar
+                            {...props}
+                            key={id}
+                            onHidden={() => {
+                                onHidden && onHidden()
+                                remove()
+                            }}
+                        >
+                            {message}
+                        </AlertBar>
+                    )
+                }
             )}
         </AlertStack>
     )
