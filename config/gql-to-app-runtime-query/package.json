@@ -1,0 +1,30 @@
+{
+    "name": "@dhis2/gql-tp-app-runtime-query",
+    "version": "6.1.2",
+    "engines": {
+        "node": ">=10"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dhis2/app-platform",
+        "directory": "packages/gql-tp-app-runtime-query"
+    },
+    "author": "Jan-Gerke Salomon <jan-gerke@dhis2.org>",
+    "license": "BSD-3-Clause",
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "test": "jest"
+    },
+    "main": "src/index.js",
+    "files": [
+        "src"
+    ],
+    "dependencies": {
+        "babel-jest": "^24.9.0",
+        "graphql": "^15.5.0",
+        "graphql-tag": "^2.11.0",
+        "jest-cli": "^24.9.0"
+    }
+}

@@ -52,6 +52,10 @@ const makeBabelConfig = ({ moduleType, mode }) => {
 
             // Adds support for default value using ?? operator
             require('@babel/plugin-proposal-nullish-coalescing-operator'),
+
+            // Adds support for graphql queries which will be transformed
+            // to app-runtime queries
+            require('@dhis2/gql-tp-app-runtime-query'),
         ],
         env: {
             production: {

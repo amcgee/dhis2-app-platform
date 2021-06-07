@@ -11,7 +11,8 @@
             "examples/simple-app",
             "cli",
             "shell",
-            "adapter"
+            "adapter",
+            "config/gql-to-app-runtime-query"
         ]
     },
     "devDependencies": {
@@ -21,7 +22,9 @@
     },
     "scripts": {
         "format": "d2-style js apply && d2-style text apply",
+        "format:staged": "d2-style js apply --staged && d2-style text apply --staged",
         "lint": "d2-style js check && d2-style text check",
+        "lint:staged": "d2-style js check --staged && d2-style text check --staged",
         "build": "yarn build:adapter && yarn build:example",
         "build:adapter": "yarn workspace @dhis2/app-adapter build",
         "build:example": "yarn workspace simple-app build",
@@ -30,7 +33,8 @@
         "docs:serve": "d2-utils-docsite serve ./docs -o ./dist",
         "docs:build": "d2-utils-docsite build ./docs -o ./dist",
         "test:adapter": "yarn workspace @dhis2/app-adapter test",
-        "test": "yarn test:adapter"
+        "test:gql": "yarn workspace @dhis2/gql-tp-app-runtime-query test",
+        "test": "yarn test:adapter && yarn test:gql"
     },
     "d2": {
         "docsite": {

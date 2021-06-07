@@ -2,3 +2,4 @@
 **/locales/index.js
 cli/config/init.entrypoint.js
 cli/config/init.App.test.js
+config/gql-to-app-runtime-query/src/__test__/plugin/*
