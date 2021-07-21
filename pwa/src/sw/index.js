@@ -1,0 +1,1 @@
+export { setUpServiceWorker } from './sw'
