@@ -1,4 +1,4 @@
-import { checkForSWUpdateAndReload, OfflineInterface } from '@dhis2/pwa'
+import { checkForSWUpdateAndReload, OfflineInterface } from '@dhis2/pwa/browser'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { AppWrapper } from './components/AppWrapper.js'
