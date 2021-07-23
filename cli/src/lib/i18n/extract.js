@@ -43,9 +43,7 @@ const extract = async ({ input, output, paths }) => {
 
     var parsed = parser.get()
     var en = {}
-    Object.keys(parsed.en.translation).forEach(
-        str => (en[str] = parsed.en.translation[str])
-    )
+    Object.keys(parsed.en.translation).forEach(str => (en[str] = ''))
 
     if (Object.keys(en).length === 0) {
         reporter.print(
