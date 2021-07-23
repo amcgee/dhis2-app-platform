@@ -44,7 +44,7 @@
         "handlebars": "^4.3.3",
         "i18next-conv": "^9",
         "i18next-scanner": "^2.10.3",
-        "inquirer": "^7.3.3",
+        "inquirer": "^8.1.2",
         "jest-cli": "^24.9.0",
         "lodash": "^4.17.11",
         "parse-author": "^2.0.0",
